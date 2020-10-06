@@ -11,12 +11,13 @@ let start = Date.now();
 let { promise, abort } = createAbortablePromise((resolve, reject, abort) => {
   setTimeout(() => resolve(true), 3000);
 
-  setTimeout(() => abort('BLAH'), 500);
+  setTimeout(abort, 2500);
 })
 
 promise.then(
   val => { console.log('success', val, Date.now() - start) }
 ).catch(
-  err => console.log('fail', err, Date.now() - start)
+  err => {console.log('fail', err.name, err.message, Date.now() - start); throw err}
 )
 
+setTimeout(abort, 3500)
